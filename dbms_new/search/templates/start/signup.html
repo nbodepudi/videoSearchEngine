@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+{% extends 'start/base.html' %}
+
+{% block content %}
+  <h2 class="ui center aligned icon header">
+  <i class="add user icon"></i>
+    Sign Up
+  </h2>
+  <div align="center">
+  <form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+      <p>
+        {{ field.label_tag }}
+        {{ field }}<br>
+        {% for error in field.errors %}
+          <p style="color: red">{{ error }}</p>
+        {% endfor %}
+      </p>
+    {% endfor %}
+    <button class="ui button" type="submit">Sign up</button>
+  </form>
+   </div>
+
+{% endblock %}
+
+</body>
+</html>

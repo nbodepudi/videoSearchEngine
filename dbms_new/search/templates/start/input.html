@@ -1,0 +1,250 @@
+<html lang="en">
+<head>
+  <title>Video Search</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link href = "https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.min.css" rel = "stylesheet" />
+  <script src = "https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/components/dropdown.js"></script>
+</head>
+<style>
+	.name{ list-style-type: none;
+			padding: 5 px;}
+	.statistics{ padding: 5 px; }
+	 #abcd{ margin-left: 30px;
+	 		margin-top : 15px;
+	 		margin-bottom: 10px;}
+	.crv{padding: 5px;}
+	.container-fluid{ padding:25px;}
+
+
+.bottom-three {
+     margin-bottom: 1cm;
+  }
+
+</style>
+
+<script>
+function myFunction() {
+    alert("This will permenantly remove recent queries and videos!!");
+}
+</script>
+
+<title>Search</title>
+	<body bgcolor="#f5f5f0">
+		<div class = "container-fluid"  style="background-color: #f5f5f0">
+			{% if user.is_authenticated %}
+			<div align="right">
+				<div class="ui label">
+  					<i class="user icon"></i> {{user.username}}
+				</div>
+				<a href="/logout">logout</a>
+			</div>
+			{% else %}
+			 <div align="right">
+      			<a href ="/login" class="ui label">
+  					<i class="user icon"></i> Log in
+				</a>
+				<a href ="/signup" class="ui label">
+  					<i class="add user icon"></i> Sign Up
+				</a>
+
+			</div>
+    		{% endif %}
+
+			<div clas = "search" align="center">
+			<p class="bottom-three">
+                	<font size ="5">Enter a keyword, several keywords to search</font><br/>
+			</p>
+				<form  method="GET">
+					<div class="ui small left icon input">
+  					<input type="text" name = "terms" size ="50" placeholder="  Money, Modi...">
+					<i class="inverted circular search link icon"></i>
+					<input type="submit" class = "ui button" value= "Search">
+					</div>
+					<!--<input type="text" name="terms" size="50"><br>
+					<input type="submit" value="Search"><br> -->
+				</form>
+
+			</div>
+				<form method="GET">
+					<div align="center">
+					<div class="ui horizontol labeled icon buttons">
+  						<button type="submit" value="query" name= "type" class="ui right floated button">
+    						<i class="list layout icon"></i>Recent Queries
+  						</button>
+
+  						<button type ="submit" value="history" name= "type" class="ui right floated button">
+    						<i class= "history icon"></i> Recent Videos
+  						</button>
+
+						<button onclick="myFunction()" type ="submit" value ="clear" name= "type"class="ui right floated button">
+							<i class="trash outline icon"></i>Clear Recents
+  						</button>
+						<button type="submit" value="bore" name = "type" class="ui right floated button">
+						<i class="wizard icon"></i>Feeling Lucky
+						</button>
+					</div>
+						</div>
+				</form>
+
+		</div>
+		<div align="center">
+		<div  style="background-color: #f5f5f0">
+			<h2 class="ui header">
+				{{string}}
+  				<div class="sub header">{{string2}}</div>
+			</h2>
+		</div>
+
+		</div>
+		<div align="center">
+			{% for q in ques %}
+				<div class="ui relaxed items">
+  					<div class="item">
+						<div class="middle aligned content">
+      						<a href="search/?terms={{q}}" class="header">{{q}}</a>
+   		 				</div>
+  					</div>
+				</div>
+			{% endfor %}
+		</div>
+		<div class="row">
+			<div class="col-md-6" style="background-color: #f5f5f0">
+				{% for dat in data %}
+ 					<div class="ui segment">
+						<h2 id ="abcd">{{dat.videoInfo.snippet.localized.title}}</h2>
+							<img class="ui centered large image" src="{{dat.videoInfo.snippet.thumbnails.high.url}}" >
+						<div class="ui mini statistics" id = "abcd">
+							<div class="statistic">
+   								 <div class="value">
+      								<i class="unhide icon"></i> {{dat.videoInfo.statistics.viewCount}}
+								 </div>
+    							 <div class="label">
+      								Views
+								 </div>
+  							</div>
+  							<div class="statistic">
+   								 <div class="value">
+      								<i class="thumbs up icon"></i> {{dat.videoInfo.statistics.likeCount}}
+								 </div>
+    							 <div class="label">
+      							 	Likes
+								 </div>
+  							</div>
+							<div class="statistic">
+   								 <div class="value">
+      								<i class="comment icon"></i> {{dat.videoInfo.statistics.commentCount}}
+								 </div>
+    							 <div class="label">
+      							 	Comments
+								 </div>
+  							</div>
+							<div class="statistic">
+   								 <div class="value">
+      								<i class="heart icon"></i> {{dat.videoInfo.statistics.favoriteCount}}
+								 </div>
+    							 <div class="label">
+      								Favorite
+								 </div>
+  							</div>
+							<div class="statistic">
+   								 <div class="value">
+      								<i class="thumbs down icon"></i> {{dat.videoInfo.statistics.dislikeCount}}
+								 </div>
+    							<div class="label">
+      							Dislikes
+								</div>
+  							</div>
+						</div>
+
+						<div class= "ui items">
+							<div class="item">
+								<div class="content">
+									<div class="meta">
+        								<span>Channel Title:</span>
+									</div>
+									<a href="/search/url?videos={{dat.videoInfo.snippet.channelId}}" class ="header">{{dat.videoInfo.snippet.channelTitle}}</a>
+									<div class="Description">
+   								 		<div class="meta">
+        									<span>Description:</span>
+      									</div>
+    									<p >{{dat.videoInfo.snippet.localized.description}}</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				{%endfor%}
+			</div>
+
+		<div class="col-md-6">
+			<div style="background-color: #ebebe0">
+			{% for ids in videoIDs %}
+				<div class="ui items">
+ 			 		<div class="item">
+    					<div class="image">
+     						<img src="{{ids.videoInfo.snippet.thumbnails.default.url}}">
+						</div>
+    					<div class="content">
+     			 		<a href="/search/url?q={{ids.videoInfo.id}}" class="header">{{ids.videoInfo.snippet.localized.title}}</a>
+      					<div class="meta">
+        					<span>Description</span>
+      					</div>
+      					<div class="description">
+        					<p>{{ids.videoInfo.snippet.localized.description}}</p>
+						</div>
+
+   					 </div>
+ 				 </div>
+			{%endfor%}
+
+
+			{% for video in channel_list %}
+				<div class="ui items">
+  					<div class="item">
+    					<div class="ui tiny image">
+      						<img src="{{video.videoInfo.snippet.thumbnails.default.url}}">
+    					</div>
+						<div class="middle aligned content">
+      						<a href="/search/url?q={{video.videoInfo.id}}"class="header">{{video.videoInfo.snippet.localized.title}}</a>
+    					</div>
+  					</div>
+				</div>
+			{%endfor%}
+			</div>
+		</div>
+
+
+
+		<div class="col-md-6">
+			<div style="background-color: #ebebe0">
+			{% for given in rel_data %}
+				<div class="ui items">
+ 			 		<div class="item">
+    					<div class="image">
+     						<img src="{{given.videoInfo.snippet.thumbnails.default.url}}">
+						</div>
+    				<div class="content">
+     			 		<a href="/search/url?q={{given.videoInfo.id}}" class="header">{{given.videoInfo.snippet.localized.title}}</a>
+      					<div class="meta">
+        					<span>Description</span>
+      					</div>
+      					<div class="description">
+        					<p>{{given.videoInfo.snippet.localized.description}}</p>
+						</div>
+					</div>
+ 				 </div>
+			{%endfor%}
+			</div>
+			<h2 class="ui header">{{no_rel_data}}</h2>
+		</div>
+	</div>
+
+
+
+
+	</body>

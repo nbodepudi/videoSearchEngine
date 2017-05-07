@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+{% extends 'start/base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+        <div align="right">
+
+        <a href ="/signup" class="ui large label">
+            <i class="add user icon"></i> Sign Up
+        </a>
+        </div>
+    <div align="center">
+    <h2 class="ui icon header">
+        <i class="sign in icon"></i>
+        <div class="content">
+            Sign In
+        <div class="sub header">Please Sign-in to continue.</div>
+        </div>
+    </h2>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+      <button type = "submit" class="ui button">
+            <i class="icon user"></i>
+      Sign in
+      </button>
+
+  </form>
+
+
+{% endblock %}
+</body>
+</html>
