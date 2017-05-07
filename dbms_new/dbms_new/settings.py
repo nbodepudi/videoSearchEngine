@@ -20,12 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'g22*xi05f%mcyb!a1hfqk_r=^0m4gp19t3r-kpi4w(=zr)ucb6'
+SECRET_KEY = '********'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['172.16.68.36', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1'] #Add you ip inorder to allow new clients.
 
 
 # Application definition
@@ -81,10 +81,10 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME' : 'kittu',
         'USER' : 'root',
-        'PASSWORD' : 'kittu007',
+        'PASSWORD' : 'xxxxx', # Add you mysql database password
         'HOST' : 'localhost',
         'PORT' : '',
-        #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'), #uncomemnt to use default database
     }
 }
 
@@ -131,8 +131,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
+
 STATIC_URL = '/static/'
 
+
+#Change you templates directory
 TEMPLATE_DIRS = (
     'templates/',
 )
