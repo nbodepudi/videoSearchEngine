@@ -12,7 +12,7 @@ from datetime import datetime
 import mysql.connector
 import random
 
-
+#Creating a new user using Django
 def signup(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -28,6 +28,7 @@ def signup(request):
     return render(request, 'start/signup.html', {'form': form})
 
 
+#Main function which connects both backend and frontend
 def index(request):
     videoIDs = None
     file_data = None
@@ -117,11 +118,11 @@ def index(request):
         return render(request,'start/input.html')
 
 
-################################################################################################################################################
+############################## Backend Part ##################################################################################################################
 
 def getVideoslist(req):
-    connection = pymongo.MongoClient("mongodb://localhost:27017/")
-    db = connection.new_database
+    connection = pymongo.MongoClient("mongodb://localhost:27017/") #Enter your mongodb details
+    db = connection.new_database  #Select your database and Collection
     coll = db.test_collection
     arrayjson = coll.find()
     arrayjson = dumps(arrayjson)
@@ -180,7 +181,7 @@ def getVideoQuery(userid):
 
 def getVideoId(userid):
     data = [];
-    cnx = mysql.connector.connect(user='root', password='kittu007', database='dbms')
+    cnx = mysql.connector.connect(user='root', password='****', database='dbms') #User your Mysql password to store click throgh data
     cursor = cnx.cursor()
     cmd = "SELECT crv_Id FROM crv_data  WHERE user_id = '"+userid+"' ORDER BY cur_time DESC LIMIT 10 "
     cursor.execute(cmd)
@@ -193,7 +194,7 @@ def getVideoId(userid):
     return data
 
 def InsertToSQL(userid,w):
-    cnx = mysql.connector.connect(user='root',password = 'kittu007', database='dbms')
+    cnx = mysql.connector.connect(user='root',password = '****', database='dbms')
     cursor = cnx.cursor()
     cur_time = (str(datetime.now()))
     add_data = "INSERT INTO query_data " "(user_id,query,cur_time) " "VALUES (%s,%s,%s)"
@@ -205,7 +206,7 @@ def InsertToSQL(userid,w):
     cnx.close()
 
 def CrvToSQL(userid,w):
-    cnx = mysql.connector.connect(user='root',password = 'kittu007', database='dbms')
+    cnx = mysql.connector.connect(user='root',password = '****', database='dbms')
     cursor = cnx.cursor()
     cur_time = (str(datetime.now()))
     add_data = "INSERT INTO crv_data " "(user_id,crv_Id,cur_time) " "VALUES (%s,%s,%s)"
@@ -216,6 +217,7 @@ def CrvToSQL(userid,w):
     cursor.close()
     cnx.close()
 
+## Search Functions. Further Indexing can be done for optimization of search	
 def descriptionCompare(description1, description2):
     word_description1 = description1.split()
     word_description2 = description2.split()
@@ -285,7 +287,7 @@ def relevantVideoData(flist):
 
 
 def RelatedVideoID(w):
-	graph = Graph("http://neo4j:2580@localhost:7474/db/data/")
+	graph = Graph("http://neo4j:****@localhost:7474/db/data/") #Enter your password
 	query = "MATCH (n)-[r:`Matching Description`]->(n1)<-[r1:`Matching Tags`]-(n) where n.name = \""+w+"\" and r.weightage > 15 and r1.weightage > 1 return n1.name,r.weightage,r1.weightage order by (r.weightage) desc"
 	res = graph.data(query)
 	vals = {}
