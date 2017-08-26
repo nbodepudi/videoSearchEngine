@@ -1,5 +1,4 @@
 # videoSearchEngine
-Group-23 
 Nagasai Bodepudi - 140123011, 
 Vijay Kumar - 140123042, 
 Sai Teja - 140123040, 
